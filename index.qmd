@@ -1,0 +1,9 @@
+# Preface {.unnumbered}
+
+I write to see what I can write [@derek].
+
+I code to see what I can code [@derek].
+
+And perhaps you read what I wrote and coded.
+
+And perhaps you benefit from what I wrote and coded.

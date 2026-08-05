@@ -1,0 +1,64 @@
+## Font size in mm or pt
+
+> ... **ggplot2 specifies the size in millimeters (mm)**, rather than the usual points (pts). The reason for this choice is that it makes it the units for font sizes consistent with how other sizes are specified in ggplots. ([**There are 72.27 pts in a inch, so to convert from pts to mm, just multiply by 25.4 / 72.27**]{.mark}).
+
+From [ggplot2: Elegant Graphics for Data Analysis (3e)](https://ggplot2-book.org/annotations.html#sec-text-labels)
+
+Since 1 inch = 2.54 cm = 25.4 mm, and there are 72.27 pts in 25.4 mm,
+
+so there are 2.845276 pts in a mm,
+
+```{r}
+72.27 / 25.4
+```
+
+or one pt equals to 0.3514598 mm.
+
+```{r}
+25.4 / 72.27
+```
+
+If it is needed to convert from mm to pts, just: mm * (72.27 / 25.4); or from pts to mm, just: pts * (25.4 / 72.27).
+
+There is a numeric (i.e. `.pt`) in ggplot2. The numeric is equal to `72.27 / 25.4`.
+
+```{r}
+mode(ggplot2::.pt)
+
+ggplot2::.pt == 72.27 / 25.4
+
+round(1 / ggplot2::.pt, digits = 7) == round(25.4 / 72.27, digits = 7)
+
+# For example
+12 / ggplot2::.pt
+```
+
+In other words, if it is needed to convert from mm to pts, just: mm * `ggplot2::.pt`; or from pts to mm, just: pts * (1 / `ggplot2::.pt`) or pts / `ggplot2::.pt`.
+
+```{r}
+#| message: false
+library(tidyplots)
+
+df <- tibble::tibble(x = 1, y = 1)
+
+df
+
+df |>
+  tidyplot(x = x, y = y) |> 
+  add_annotation_text(
+    text = "12 pts or 4.22 mm",
+    x = 0.75,
+    y = 1,
+    color = "#bb5566",
+    fontsize = 12) |> # default in pt
+  add(ggplot2::annotate(
+    "text", 
+    x = 1.25, 
+    y = 1, 
+    label = "12 pts or 4.22 mm",
+    color = "#004488",
+    size = 12 / ggplot2::.pt)) |> # convert 12 pts to the default mm (4.217518)
+  add_title(title = "12 pts is approximately 4.22 mm\nin fontsize") |> 
+  adjust_x_axis(limits = c(0.5, 1.5)) |> 
+  adjust_size(width = 100)
+```

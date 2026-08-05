@@ -1,0 +1,19 @@
+project:
+  type: book
+
+book:
+  title: "Tidyplots from time to time"
+  author: "Kang Wu"
+
+  chapters:
+    - index.qmd
+    - often_1.qmd
+
+bibliography: references.bib
+
+format:
+  html:
+    theme:
+      light: Sandstone
+      dark: Solar
+    code-copy: true

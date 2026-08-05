@@ -1,0 +1,22 @@
+[
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "Tidyplots from time to time",
+    "section": "",
+    "text": "Preface\nI write to see what I can write (Sivers 2026).\nI code to see what I can code (Sivers 2026).\nAnd perhaps you read what I wrote and coded.\nAnd perhaps you benefit from what I wrote and coded.\n\n\n\n\nSivers, Derek. 2026. July. https://bsky.app/profile/sive.rs/post/3mrnb3ufuds2p.",
+    "crumbs": [
+      "Preface"
+    ]
+  },
+  {
+    "objectID": "often_1.html",
+    "href": "often_1.html",
+    "title": "1  Font size in mm or pt",
+    "section": "",
+    "text": "… ggplot2 specifies the size in millimeters (mm), rather than the usual points (pts). The reason for this choice is that it makes it the units for font sizes consistent with how other sizes are specified in ggplots. (There are 72.27 pts in a inch, so to convert from pts to mm, just multiply by 25.4 / 72.27).\n\nFrom ggplot2: Elegant Graphics for Data Analysis (3e)\nSince 1 inch = 2.54 cm = 25.4 mm, and there are 72.27 pts in 25.4 mm,\nso there are 2.845276 pts in a mm,\n\n72.27 / 25.4\n\n[1] 2.845276\n\n\nor one pt equals to 0.3514598 mm.\n\n25.4 / 72.27\n\n[1] 0.3514598\n\n\nIf it is needed to convert from mm to pts, just: mm * (72.27 / 25.4); or from pts to mm, just: pts * (25.4 / 72.27).\nThere is a numeric (i.e. .pt) in ggplot2. The numeric is equal to 72.27 / 25.4.\n\nmode(ggplot2::.pt)\n\n[1] \"numeric\"\n\nggplot2::.pt == 72.27 / 25.4\n\n[1] TRUE\n\nround(1 / ggplot2::.pt, digits = 7) == round(25.4 / 72.27, digits = 7)\n\n[1] TRUE\n\n# For example\n12 / ggplot2::.pt\n\n[1] 4.217518\n\n\nIn other words, if it is needed to convert from mm to pts, just: mm * ggplot2::.pt; or from pts to mm, just: pts * (1 / ggplot2::.pt) or pts / ggplot2::.pt.\n\nlibrary(tidyplots)\n\ndf &lt;- tibble::tibble(x = 1, y = 1)\n\ndf\n\n# A tibble: 1 × 2\n      x     y\n  &lt;dbl&gt; &lt;dbl&gt;\n1     1     1\n\ndf |&gt;\n  tidyplot(x = x, y = y) |&gt; \n  add_annotation_text(\n    text = \"12 pts or 4.22 mm\",\n    x = 0.75,\n    y = 1,\n    color = \"#bb5566\",\n    fontsize = 12) |&gt; # default in pt\n  add(ggplot2::annotate(\n    \"text\", \n    x = 1.25, \n    y = 1, \n    label = \"12 pts or 4.22 mm\",\n    color = \"#004488\",\n    size = 12 / ggplot2::.pt)) |&gt; # convert 12 pts to the default mm (4.217518)\n  add_title(title = \"12 pts is approximately 4.22 mm\\nin fontsize\") |&gt; \n  adjust_x_axis(limits = c(0.5, 1.5)) |&gt; \n  adjust_size(width = 100)",
+    "crumbs": [
+      "<span class='chapter-number'>1</span>  <span class='chapter-title'>Font size in mm or pt</span>"
+    ]
+  }
+]
