@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>1&nbsp; Font size in mm or pt – Tidyplots from time to time</title>
+<title>1&nbsp; Tidyplots from time to time – Tidyplots from time to time</title>
 <style>
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
@@ -285,7 +285,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./often_1.html"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Font size in mm or pt</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./often_1.html"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Tidyplots from time to time</span></a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -322,7 +322,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./often_1.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Font size in mm or pt</span></span></a>
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Tidyplots from time to time</span></span></a>
   </div>
 </li>
     </ul>
@@ -335,7 +335,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#could-add_heatmap-add-dendrogram-for-rows-or-columns" id="toc-could-add_heatmap-add-dendrogram-for-rows-or-columns" class="nav-link active" data-scroll-target="#could-add_heatmap-add-dendrogram-for-rows-or-columns"><span class="header-section-number">1.1</span> Could <code>add_heatmap()</code> add dendrogram for rows or columns?</a></li>
+  <li><a href="#font-size-in-mm-or-pt" id="toc-font-size-in-mm-or-pt" class="nav-link active" data-scroll-target="#font-size-in-mm-or-pt"><span class="header-section-number">1.1</span> Font size in mm or pt</a></li>
+  <li><a href="#could-add_heatmap-add-dendrogram-for-rows-or-columns" id="toc-could-add_heatmap-add-dendrogram-for-rows-or-columns" class="nav-link" data-scroll-target="#could-add_heatmap-add-dendrogram-for-rows-or-columns"><span class="header-section-number">1.2</span> Could <code>add_heatmap()</code> add dendrogram for rows or columns?</a></li>
   </ul>
 </nav>
     </div>
@@ -345,7 +346,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Font size in mm or pt</span></h1>
+<h1 class="title"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Tidyplots from time to time</span></h1>
 </div>
 
 
@@ -362,6 +363,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 
+<section id="font-size-in-mm-or-pt" class="level2" data-number="1.1">
+<h2 data-number="1.1" class="anchored" data-anchor-id="font-size-in-mm-or-pt"><span class="header-section-number">1.1</span> Font size in mm or pt</h2>
 <blockquote class="blockquote">
 <p>… <strong>ggplot2 specifies the size in millimeters (mm)</strong>, rather than the usual points (pts). The reason for this choice is that it makes it the units for font sizes consistent with how other sizes are specified in ggplots. (<mark><strong>There are 72.27 pts in a inch, so to convert from pts to mm, just multiply by 25.4 / 72.27</strong></mark>).</p>
 </blockquote>
@@ -441,8 +444,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 </div>
-<section id="could-add_heatmap-add-dendrogram-for-rows-or-columns" class="level2" data-number="1.1">
-<h2 data-number="1.1" class="anchored" data-anchor-id="could-add_heatmap-add-dendrogram-for-rows-or-columns"><span class="header-section-number">1.1</span> Could <code>add_heatmap()</code> add dendrogram for rows or columns?</h2>
+</section>
+<section id="could-add_heatmap-add-dendrogram-for-rows-or-columns" class="level2" data-number="1.2">
+<h2 data-number="1.2" class="anchored" data-anchor-id="could-add_heatmap-add-dendrogram-for-rows-or-columns"><span class="header-section-number">1.2</span> Could <code>add_heatmap()</code> add dendrogram for rows or columns?</h2>
 <p>The answer is <code>NO</code>, since <code>add_headmap()</code> is a wrap of <code>ggplot2::geom_raster</code>.</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyplots)</span>
@@ -481,7 +485,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     }
     plot
 }
-&lt;bytecode: 0x00000175f598bc78&gt;
+&lt;bytecode: 0x0000015115a25a80&gt;
 &lt;environment: namespace:tidyplots&gt;</code></pre>
 </div>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>ggplot2<span class="sc">::</span>faithfuld <span class="sc">|&gt;</span> </span>

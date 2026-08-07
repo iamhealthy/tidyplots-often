@@ -1,3 +1,5 @@
+# Tidyplots from time to time
+
 ## Font size in mm or pt
 
 > ... **ggplot2 specifies the size in millimeters (mm)**, rather than the usual points (pts). The reason for this choice is that it makes it the units for font sizes consistent with how other sizes are specified in ggplots. ([**There are 72.27 pts in a inch, so to convert from pts to mm, just multiply by 25.4 / 72.27**]{.mark}).
