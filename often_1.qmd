@@ -62,3 +62,22 @@ df |>
   adjust_x_axis(limits = c(0.5, 1.5)) |> 
   adjust_size(width = 100)
 ```
+
+## Could `add_heatmap()` add dendrogram for rows or columns?
+
+The answer is `NO`, since `add_headmap()` is a wrap of `ggplot2::geom_raster`.
+
+```{r}
+library(tidyplots)
+
+add_heatmap
+
+ggplot2::faithfuld |> 
+  dplyr::slice_head(n = 10)
+
+ggplot2::faithfuld |> 
+  tidyplot(x = waiting, y = eruptions, color = density) |> 
+  add_heatmap()
+```
+
+So sometimes we need to pre-order the rows and/or columns before using `add_headmap()`.
