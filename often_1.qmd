@@ -83,3 +83,42 @@ ggplot2::faithfuld |>
 ```
 
 So sometimes we need to pre-order the rows and/or columns before using `add_headmap()`.
+
+## How long have I lived in different places?
+
+When I went for a walk with my wife this afternoon, our chat turned to the question: how long have I spent in different places?
+
+So let me calculate it here.
+
+```{r}
+#| message: false
+library(tidyplots)
+library(lubridate)
+
+current_ym <- format(Sys.Date(), "%Y-%m")
+
+df <- tibble::tibble(
+  places = factor(
+    x = c("Chengcheng county", "Yangling town", "Shanghai"),
+    levels = c("Chengcheng county", "Yangling town", "Shanghai"),
+    ordered = TRUE
+  ),
+  days = as.numeric(c( # the time is not so precise (i.e. not to days)
+    ym("2001-08") - ym("1983-02"),
+    ym("2007-07") - ym("2001-09"),
+    ym(current_ym) - ym("2007-08")
+  ))
+)
+
+df
+
+df |> 
+  tidyplot(x = places, y = days, color = places) |> 
+  add_sum_bar() |> 
+  add_sum_value() |> 
+  adjust_x_axis(rotate_labels = TRUE)
+```
+
+I fist lived in Chengcheng county (Shaanxi, China), followed by Yangling town (Shaanxi, China). I am currently living in Shanghai.
+
+So I have lived in Shanghai the longest.

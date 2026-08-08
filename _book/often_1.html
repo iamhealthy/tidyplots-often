@@ -337,6 +337,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <ul>
   <li><a href="#font-size-in-mm-or-pt" id="toc-font-size-in-mm-or-pt" class="nav-link active" data-scroll-target="#font-size-in-mm-or-pt"><span class="header-section-number">1.1</span> Font size in mm or pt</a></li>
   <li><a href="#could-add_heatmap-add-dendrogram-for-rows-or-columns" id="toc-could-add_heatmap-add-dendrogram-for-rows-or-columns" class="nav-link" data-scroll-target="#could-add_heatmap-add-dendrogram-for-rows-or-columns"><span class="header-section-number">1.2</span> Could <code>add_heatmap()</code> add dendrogram for rows or columns?</a></li>
+  <li><a href="#how-long-have-i-lived-in-different-places" id="toc-how-long-have-i-lived-in-different-places" class="nav-link" data-scroll-target="#how-long-have-i-lived-in-different-places"><span class="header-section-number">1.3</span> How long have I lived in different places?</a></li>
   </ul>
 </nav>
     </div>
@@ -485,7 +486,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     }
     plot
 }
-&lt;bytecode: 0x0000015115a25a80&gt;
+&lt;bytecode: 0x0000012c4294d190&gt;
 &lt;environment: namespace:tidyplots&gt;</code></pre>
 </div>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>ggplot2<span class="sc">::</span>faithfuld <span class="sc">|&gt;</span> </span>
@@ -517,6 +518,54 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 <p>So sometimes we need to pre-order the rows and/or columns before using <code>add_headmap()</code>.</p>
+</section>
+<section id="how-long-have-i-lived-in-different-places" class="level2" data-number="1.3">
+<h2 data-number="1.3" class="anchored" data-anchor-id="how-long-have-i-lived-in-different-places"><span class="header-section-number">1.3</span> How long have I lived in different places?</h2>
+<p>When I went for a walk with my wife this afternoon, our chat turned to the question: how long have I spent in different places?</p>
+<p>So let me calculate it here.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyplots)</span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(lubridate)</span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>current_ym <span class="ot">&lt;-</span> <span class="fu">format</span>(<span class="fu">Sys.Date</span>(), <span class="st">"%Y-%m"</span>)</span>
+<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> tibble<span class="sc">::</span><span class="fu">tibble</span>(</span>
+<span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">places =</span> <span class="fu">factor</span>(</span>
+<span id="cb21-8"><a href="#cb21-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="fu">c</span>(<span class="st">"Chengcheng county"</span>, <span class="st">"Yangling town"</span>, <span class="st">"Shanghai"</span>),</span>
+<span id="cb21-9"><a href="#cb21-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">levels =</span> <span class="fu">c</span>(<span class="st">"Chengcheng county"</span>, <span class="st">"Yangling town"</span>, <span class="st">"Shanghai"</span>),</span>
+<span id="cb21-10"><a href="#cb21-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">ordered =</span> <span class="cn">TRUE</span></span>
+<span id="cb21-11"><a href="#cb21-11" aria-hidden="true" tabindex="-1"></a>  ),</span>
+<span id="cb21-12"><a href="#cb21-12" aria-hidden="true" tabindex="-1"></a>  <span class="at">days =</span> <span class="fu">as.numeric</span>(<span class="fu">c</span>( <span class="co"># the time is not so precise (i.e. not to days)</span></span>
+<span id="cb21-13"><a href="#cb21-13" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ym</span>(<span class="st">"2001-08"</span>) <span class="sc">-</span> <span class="fu">ym</span>(<span class="st">"1983-02"</span>),</span>
+<span id="cb21-14"><a href="#cb21-14" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ym</span>(<span class="st">"2007-07"</span>) <span class="sc">-</span> <span class="fu">ym</span>(<span class="st">"2001-09"</span>),</span>
+<span id="cb21-15"><a href="#cb21-15" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ym</span>(current_ym) <span class="sc">-</span> <span class="fu">ym</span>(<span class="st">"2007-08"</span>)</span>
+<span id="cb21-16"><a href="#cb21-16" aria-hidden="true" tabindex="-1"></a>  ))</span>
+<span id="cb21-17"><a href="#cb21-17" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb21-18"><a href="#cb21-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-19"><a href="#cb21-19" aria-hidden="true" tabindex="-1"></a>df</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 3 × 2
+  places             days
+  &lt;ord&gt;             &lt;dbl&gt;
+1 Chengcheng county  6756
+2 Yangling town      2129
+3 Shanghai           6940</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>df <span class="sc">|&gt;</span> </span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tidyplot</span>(<span class="at">x =</span> places, <span class="at">y =</span> days, <span class="at">color =</span> places) <span class="sc">|&gt;</span> </span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">add_sum_bar</span>() <span class="sc">|&gt;</span> </span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">add_sum_value</span>() <span class="sc">|&gt;</span> </span>
+<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">adjust_x_axis</span>(<span class="at">rotate_labels =</span> <span class="cn">TRUE</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="often_1_files/figure-html/unnamed-chunk-6-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>I fist lived in Chengcheng county (Shaanxi, China), followed by Yangling town (Shaanxi, China). I am currently living in Shanghai.</p>
+<p>So I have lived in Shanghai the longest.</p>
 
 
 </section>
