@@ -338,6 +338,15 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#font-size-in-mm-or-pt" id="toc-font-size-in-mm-or-pt" class="nav-link active" data-scroll-target="#font-size-in-mm-or-pt"><span class="header-section-number">1.1</span> Font size in mm or pt</a></li>
   <li><a href="#could-add_heatmap-add-dendrogram-for-rows-or-columns" id="toc-could-add_heatmap-add-dendrogram-for-rows-or-columns" class="nav-link" data-scroll-target="#could-add_heatmap-add-dendrogram-for-rows-or-columns"><span class="header-section-number">1.2</span> Could <code>add_heatmap()</code> add dendrogram for rows or columns?</a></li>
   <li><a href="#how-long-have-i-lived-in-different-places" id="toc-how-long-have-i-lived-in-different-places" class="nav-link" data-scroll-target="#how-long-have-i-lived-in-different-places"><span class="header-section-number">1.3</span> How long have I lived in different places?</a></li>
+  <li><a href="#how-to-understand-the-logic-of-downsample-parameter-of-adjust_colors-function" id="toc-how-to-understand-the-logic-of-downsample-parameter-of-adjust_colors-function" class="nav-link" data-scroll-target="#how-to-understand-the-logic-of-downsample-parameter-of-adjust_colors-function"><span class="header-section-number">1.4</span> How to understand the logic of <code>downsample</code> parameter of <code>adjust_colors</code> function?</a>
+  <ul class="collapse">
+  <li><a href="#how-about-n-1-i.e.-n_provided-n_requested" id="toc-how-about-n-1-i.e.-n_provided-n_requested" class="nav-link" data-scroll-target="#how-about-n-1-i.e.-n_provided-n_requested"><span class="header-section-number">1.4.1</span> How about n = 1 (i.e.&nbsp;n_provided &gt; n_requested)?</a></li>
+  <li><a href="#how-about-n-2-i.e.-n_provided-n_requested" id="toc-how-about-n-2-i.e.-n_provided-n_requested" class="nav-link" data-scroll-target="#how-about-n-2-i.e.-n_provided-n_requested"><span class="header-section-number">1.4.2</span> How about n = 2 (i.e.&nbsp;n_provided &gt; n_requested)?</a></li>
+  <li><a href="#how-about-n-3-i.e.-n_provided-n_requested" id="toc-how-about-n-3-i.e.-n_provided-n_requested" class="nav-link" data-scroll-target="#how-about-n-3-i.e.-n_provided-n_requested"><span class="header-section-number">1.4.3</span> How about n = 3 (i.e.&nbsp;n_provided = n_requested)?</a></li>
+  <li><a href="#how-about-n-4-i.e.-n_provided-n_requested" id="toc-how-about-n-4-i.e.-n_provided-n_requested" class="nav-link" data-scroll-target="#how-about-n-4-i.e.-n_provided-n_requested"><span class="header-section-number">1.4.4</span> How about n = 4 (i.e.&nbsp;n_provided &lt; n_requested)?</a></li>
+  </ul></li>
+  <li><a href="#dnorm-pnorm-qnorm-and-rnorm" id="toc-dnorm-pnorm-qnorm-and-rnorm" class="nav-link" data-scroll-target="#dnorm-pnorm-qnorm-and-rnorm"><span class="header-section-number">1.5</span> <code>dnorm</code>, <code>pnorm</code>, <code>qnorm</code>, and <code>rnorm</code>?</a></li>
+  <li><a href="#use-reduce-for-functional-programming" id="toc-use-reduce-for-functional-programming" class="nav-link" data-scroll-target="#use-reduce-for-functional-programming"><span class="header-section-number">1.6</span> Use <code>Reduce</code> for functional programming</a></li>
   </ul>
 </nav>
     </div>
@@ -486,7 +495,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     }
     plot
 }
-&lt;bytecode: 0x0000012c4294d190&gt;
+&lt;bytecode: 0x000002d12ba7e658&gt;
 &lt;environment: namespace:tidyplots&gt;</code></pre>
 </div>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>ggplot2<span class="sc">::</span>faithfuld <span class="sc">|&gt;</span> </span>
@@ -549,13 +558,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   &lt;ord&gt;             &lt;dbl&gt;
 1 Chengcheng county  6756
 2 Yangling town      2129
-3 Shanghai           6940</code></pre>
+3 Shanghai           7001</code></pre>
 </div>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>df <span class="sc">|&gt;</span> </span>
 <span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tidyplot</span>(<span class="at">x =</span> places, <span class="at">y =</span> days, <span class="at">color =</span> places) <span class="sc">|&gt;</span> </span>
 <span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">add_sum_bar</span>() <span class="sc">|&gt;</span> </span>
 <span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">add_sum_value</span>() <span class="sc">|&gt;</span> </span>
-<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">adjust_x_axis</span>(<span class="at">rotate_labels =</span> <span class="cn">TRUE</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">add_caption</span>(<span class="at">caption =</span> <span class="fu">paste</span>(<span class="st">"as of"</span>, current_ym)) <span class="sc">|&gt;</span> </span>
+<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">adjust_x_axis</span>(<span class="at">rotate_labels =</span> <span class="cn">TRUE</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
@@ -566,6 +576,244 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 <p>I fist lived in Chengcheng county (Shaanxi, China), followed by Yangling town (Shaanxi, China). I am currently living in Shanghai.</p>
 <p>So I have lived in Shanghai the longest.</p>
+</section>
+<section id="how-to-understand-the-logic-of-downsample-parameter-of-adjust_colors-function" class="level2" data-number="1.4">
+<h2 data-number="1.4" class="anchored" data-anchor-id="how-to-understand-the-logic-of-downsample-parameter-of-adjust_colors-function"><span class="header-section-number">1.4</span> How to understand the logic of <code>downsample</code> parameter of <code>adjust_colors</code> function?</h2>
+<p>This is a source code snippet of <code>tidyplots::adjust_colors</code>:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> (n_ratio <span class="sc">&gt;=</span> <span class="dv">1</span>) { <span class="co"># n_ratio refers to n_provided/n_requested</span></span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>            <span class="cf">if</span> (n_ratio <span class="sc">&gt;</span> <span class="dv">1</span>) {</span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>                new_colors <span class="ot">&lt;-</span> <span class="fu">downsample_vector</span>(new_colors, n_requested, </span>
+<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a>                  <span class="at">downsample =</span> downsample)</span>
+<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a>            }</span>
+<span id="cb24-6"><a href="#cb24-6" aria-hidden="true" tabindex="-1"></a>            <span class="fu">suppressMessages</span>(out <span class="ot">&lt;-</span> out <span class="sc">+</span> ggplot2<span class="sc">::</span><span class="fu">scale_color_manual</span>(<span class="at">values =</span> new_colors, </span>
+<span id="cb24-7"><a href="#cb24-7" aria-hidden="true" tabindex="-1"></a>                <span class="at">drop =</span> <span class="cn">TRUE</span>, <span class="at">labels =</span> labels, ...))</span>
+<span id="cb24-8"><a href="#cb24-8" aria-hidden="true" tabindex="-1"></a>            <span class="fu">suppressMessages</span>(out <span class="ot">&lt;-</span> out <span class="sc">+</span> ggplot2<span class="sc">::</span><span class="fu">scale_fill_manual</span>(<span class="at">values =</span> <span class="fu">apply_saturation</span>(new_colors, </span>
+<span id="cb24-9"><a href="#cb24-9" aria-hidden="true" tabindex="-1"></a>                <span class="at">saturation =</span> effective_saturation), <span class="at">drop =</span> <span class="cn">TRUE</span>, </span>
+<span id="cb24-10"><a href="#cb24-10" aria-hidden="true" tabindex="-1"></a>                <span class="at">labels =</span> labels, ...))</span>
+<span id="cb24-11"><a href="#cb24-11" aria-hidden="true" tabindex="-1"></a>        }</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>So we need to check the function of <code>tidyplots:::downsample_vector</code>:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>downsample_vector <span class="ot">&lt;-</span> <span class="cf">function</span> (x, n, <span class="at">downsample =</span> <span class="fu">c</span>(<span class="st">"evenly"</span>, <span class="st">"first"</span>, <span class="st">"last"</span>, <span class="st">"middle"</span>)) </span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>{</span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> (<span class="fu">length</span>(x) <span class="sc">&lt;=</span> n) {</span>
+<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a>        <span class="fu">return</span>(x)</span>
+<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb25-6"><a href="#cb25-6" aria-hidden="true" tabindex="-1"></a>    downsample <span class="ot">&lt;-</span> <span class="fu">match.arg</span>(downsample)</span>
+<span id="cb25-7"><a href="#cb25-7" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> (downsample <span class="sc">==</span> <span class="st">"evenly"</span>) {</span>
+<span id="cb25-8"><a href="#cb25-8" aria-hidden="true" tabindex="-1"></a>        by <span class="ot">&lt;-</span> (<span class="fu">length</span>(x)<span class="sc">/</span>(n <span class="sc">-</span> <span class="dv">1</span>)) <span class="sc">-</span> (<span class="dv">1</span><span class="sc">/</span>(n <span class="sc">-</span> <span class="dv">1</span>))</span>
+<span id="cb25-9"><a href="#cb25-9" aria-hidden="true" tabindex="-1"></a>        i <span class="ot">&lt;-</span> <span class="fu">floor</span>(<span class="fu">cumsum</span>(<span class="fu">c</span>(<span class="dv">1</span>, <span class="fu">rep</span>(by, n <span class="sc">-</span> <span class="dv">1</span>))))</span>
+<span id="cb25-10"><a href="#cb25-10" aria-hidden="true" tabindex="-1"></a>        x[i]</span>
+<span id="cb25-11"><a href="#cb25-11" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb25-12"><a href="#cb25-12" aria-hidden="true" tabindex="-1"></a>    <span class="cf">else</span> <span class="cf">if</span> (downsample <span class="sc">==</span> <span class="st">"first"</span>) {</span>
+<span id="cb25-13"><a href="#cb25-13" aria-hidden="true" tabindex="-1"></a>        x[<span class="dv">1</span><span class="sc">:</span>n]</span>
+<span id="cb25-14"><a href="#cb25-14" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb25-15"><a href="#cb25-15" aria-hidden="true" tabindex="-1"></a>    <span class="cf">else</span> <span class="cf">if</span> (downsample <span class="sc">==</span> <span class="st">"last"</span>) {</span>
+<span id="cb25-16"><a href="#cb25-16" aria-hidden="true" tabindex="-1"></a>        x[(<span class="fu">length</span>(x) <span class="sc">-</span> n <span class="sc">+</span> <span class="dv">1</span>)<span class="sc">:</span><span class="fu">length</span>(x)]</span>
+<span id="cb25-17"><a href="#cb25-17" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb25-18"><a href="#cb25-18" aria-hidden="true" tabindex="-1"></a>    <span class="cf">else</span> {</span>
+<span id="cb25-19"><a href="#cb25-19" aria-hidden="true" tabindex="-1"></a>        start_index <span class="ot">&lt;-</span> <span class="fu">ceiling</span>((<span class="fu">length</span>(x) <span class="sc">-</span> n)<span class="sc">/</span><span class="dv">2</span>) <span class="sc">+</span> <span class="dv">1</span></span>
+<span id="cb25-20"><a href="#cb25-20" aria-hidden="true" tabindex="-1"></a>        end_index <span class="ot">&lt;-</span> start_index <span class="sc">+</span> n <span class="sc">-</span> <span class="dv">1</span></span>
+<span id="cb25-21"><a href="#cb25-21" aria-hidden="true" tabindex="-1"></a>        x[start_index<span class="sc">:</span>end_index]</span>
+<span id="cb25-22"><a href="#cb25-22" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb25-23"><a href="#cb25-23" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<section id="how-about-n-1-i.e.-n_provided-n_requested" class="level3" data-number="1.4.1">
+<h3 data-number="1.4.1" class="anchored" data-anchor-id="how-about-n-1-i.e.-n_provided-n_requested"><span class="header-section-number">1.4.1</span> How about n = 1 (i.e.&nbsp;n_provided &gt; n_requested)?</h3>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="co"># New color scheme with length 3</span></span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>new_colors <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"red"</span>, <span class="st">"blue"</span>, <span class="st">"black"</span>)</span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>new_colors</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "red"   "blue"  "black"</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="fu">downsample_vector</span>(new_colors, <span class="dv">1</span>, <span class="at">downsample =</span> <span class="st">"evenly"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "red"</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="fu">downsample_vector</span>(new_colors, <span class="dv">1</span>, <span class="at">downsample =</span> <span class="st">"first"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "red"</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="fu">downsample_vector</span>(new_colors, <span class="dv">1</span>, <span class="at">downsample =</span> <span class="st">"last"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "black"</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="fu">downsample_vector</span>(new_colors, <span class="dv">1</span>, <span class="at">downsample =</span> <span class="st">"middle"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "blue"</code></pre>
+</div>
+</div>
+</section>
+<section id="how-about-n-2-i.e.-n_provided-n_requested" class="level3" data-number="1.4.2">
+<h3 data-number="1.4.2" class="anchored" data-anchor-id="how-about-n-2-i.e.-n_provided-n_requested"><span class="header-section-number">1.4.2</span> How about n = 2 (i.e.&nbsp;n_provided &gt; n_requested)?</h3>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="fu">downsample_vector</span>(new_colors, <span class="dv">2</span>, <span class="at">downsample =</span> <span class="st">"evenly"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "red"   "black"</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb38"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="fu">downsample_vector</span>(new_colors, <span class="dv">2</span>, <span class="at">downsample =</span> <span class="st">"first"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "red"  "blue"</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb40"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="fu">downsample_vector</span>(new_colors, <span class="dv">2</span>, <span class="at">downsample =</span> <span class="st">"last"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "blue"  "black"</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb42"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a><span class="fu">downsample_vector</span>(new_colors, <span class="dv">2</span>, <span class="at">downsample =</span> <span class="st">"middle"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "blue"  "black"</code></pre>
+</div>
+</div>
+</section>
+<section id="how-about-n-3-i.e.-n_provided-n_requested" class="level3" data-number="1.4.3">
+<h3 data-number="1.4.3" class="anchored" data-anchor-id="how-about-n-3-i.e.-n_provided-n_requested"><span class="header-section-number">1.4.3</span> How about n = 3 (i.e.&nbsp;n_provided = n_requested)?</h3>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb44"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a><span class="fu">downsample_vector</span>(new_colors, <span class="dv">3</span>, <span class="at">downsample =</span> <span class="st">"evenly"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "red"   "blue"  "black"</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb46"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a><span class="fu">downsample_vector</span>(new_colors, <span class="dv">3</span>, <span class="at">downsample =</span> <span class="st">"first"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "red"   "blue"  "black"</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb48"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a><span class="fu">downsample_vector</span>(new_colors, <span class="dv">3</span>, <span class="at">downsample =</span> <span class="st">"last"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "red"   "blue"  "black"</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb50"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb50-1"><a href="#cb50-1" aria-hidden="true" tabindex="-1"></a><span class="fu">downsample_vector</span>(new_colors, <span class="dv">3</span>, <span class="at">downsample =</span> <span class="st">"middle"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "red"   "blue"  "black"</code></pre>
+</div>
+</div>
+</section>
+<section id="how-about-n-4-i.e.-n_provided-n_requested" class="level3" data-number="1.4.4">
+<h3 data-number="1.4.4" class="anchored" data-anchor-id="how-about-n-4-i.e.-n_provided-n_requested"><span class="header-section-number">1.4.4</span> How about n = 4 (i.e.&nbsp;n_provided &lt; n_requested)?</h3>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb52"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb52-1"><a href="#cb52-1" aria-hidden="true" tabindex="-1"></a><span class="fu">downsample_vector</span>(new_colors, <span class="dv">4</span>, <span class="at">downsample =</span> <span class="st">"evenly"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "red"   "blue"  "black"</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb54"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb54-1"><a href="#cb54-1" aria-hidden="true" tabindex="-1"></a><span class="fu">downsample_vector</span>(new_colors, <span class="dv">4</span>, <span class="at">downsample =</span> <span class="st">"first"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "red"   "blue"  "black"</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb56"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb56-1"><a href="#cb56-1" aria-hidden="true" tabindex="-1"></a><span class="fu">downsample_vector</span>(new_colors, <span class="dv">4</span>, <span class="at">downsample =</span> <span class="st">"last"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "red"   "blue"  "black"</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb58"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb58-1"><a href="#cb58-1" aria-hidden="true" tabindex="-1"></a><span class="fu">downsample_vector</span>(new_colors, <span class="dv">4</span>, <span class="at">downsample =</span> <span class="st">"middle"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "red"   "blue"  "black"</code></pre>
+</div>
+</div>
+</section>
+</section>
+<section id="dnorm-pnorm-qnorm-and-rnorm" class="level2" data-number="1.5">
+<h2 data-number="1.5" class="anchored" data-anchor-id="dnorm-pnorm-qnorm-and-rnorm"><span class="header-section-number">1.5</span> <code>dnorm</code>, <code>pnorm</code>, <code>qnorm</code>, and <code>rnorm</code>?</h2>
+<p>My math and statistics are, to be honest, not good, and neither is my R. Here I want to understand the four functions outlined in the section title.</p>
+<p><code>dnorm</code>: density for the normal distribution; <code>pnorm</code>: distribution function for the normal distribution; <code>qnorm</code>: quantile function for the normal distribution; <code>rnorm</code>: random generation for the normal distribution.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb60"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb60-1"><a href="#cb60-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyplots)</span>
+<span id="cb60-2"><a href="#cb60-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb60-3"><a href="#cb60-3" aria-hidden="true" tabindex="-1"></a><span class="co"># dnorm</span></span>
+<span id="cb60-4"><a href="#cb60-4" aria-hidden="true" tabindex="-1"></a>plot_dnorm <span class="ot">&lt;-</span> tibble<span class="sc">::</span><span class="fu">tibble</span>(</span>
+<span id="cb60-5"><a href="#cb60-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">d_norm =</span> <span class="fu">dnorm</span>(<span class="at">x =</span> <span class="fu">seq</span>(<span class="sc">-</span><span class="dv">5</span>, <span class="dv">5</span>, <span class="at">by =</span> <span class="fl">0.05</span>)), <span class="co"># x: quantiles</span></span>
+<span id="cb60-6"><a href="#cb60-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">x =</span> <span class="fu">seq</span>(<span class="sc">-</span><span class="dv">5</span>, <span class="dv">5</span>, <span class="at">by =</span> <span class="fl">0.05</span>)</span>
+<span id="cb60-7"><a href="#cb60-7" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb60-8"><a href="#cb60-8" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb60-9"><a href="#cb60-9" aria-hidden="true" tabindex="-1"></a>p1 <span class="ot">&lt;-</span> plot_dnorm <span class="sc">|&gt;</span></span>
+<span id="cb60-10"><a href="#cb60-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tidyplot</span>(<span class="at">x =</span> x, <span class="at">y =</span> d_norm) <span class="sc">|&gt;</span> </span>
+<span id="cb60-11"><a href="#cb60-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">add_data_points</span>(<span class="at">alpha =</span> <span class="fl">0.2</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb60-12"><a href="#cb60-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">add_title</span>(<span class="at">title =</span> <span class="st">"'dnorm': density"</span>)</span>
+<span id="cb60-13"><a href="#cb60-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb60-14"><a href="#cb60-14" aria-hidden="true" tabindex="-1"></a><span class="co"># pnorm</span></span>
+<span id="cb60-15"><a href="#cb60-15" aria-hidden="true" tabindex="-1"></a>plot_pnorm <span class="ot">&lt;-</span> tibble<span class="sc">::</span><span class="fu">tibble</span>(</span>
+<span id="cb60-16"><a href="#cb60-16" aria-hidden="true" tabindex="-1"></a>  <span class="at">p_norm =</span> <span class="fu">pnorm</span>(<span class="at">q =</span> <span class="fu">seq</span>(<span class="sc">-</span><span class="dv">5</span>, <span class="dv">5</span>, <span class="at">by =</span> <span class="fl">0.05</span>)), <span class="co"># q: quantiles</span></span>
+<span id="cb60-17"><a href="#cb60-17" aria-hidden="true" tabindex="-1"></a>  <span class="at">x =</span> <span class="fu">seq</span>(<span class="sc">-</span><span class="dv">5</span>, <span class="dv">5</span>, <span class="at">by =</span> <span class="fl">0.05</span>)</span>
+<span id="cb60-18"><a href="#cb60-18" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb60-19"><a href="#cb60-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb60-20"><a href="#cb60-20" aria-hidden="true" tabindex="-1"></a>p2 <span class="ot">&lt;-</span> plot_pnorm <span class="sc">|&gt;</span> </span>
+<span id="cb60-21"><a href="#cb60-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tidyplot</span>(<span class="at">x =</span> x, <span class="at">y =</span> p_norm) <span class="sc">|&gt;</span> </span>
+<span id="cb60-22"><a href="#cb60-22" aria-hidden="true" tabindex="-1"></a>  <span class="fu">add_data_points</span>(<span class="at">alpha =</span> <span class="fl">0.2</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb60-23"><a href="#cb60-23" aria-hidden="true" tabindex="-1"></a>  <span class="fu">add_title</span>(<span class="at">title =</span> <span class="st">"'pnorm': distribution"</span>)</span>
+<span id="cb60-24"><a href="#cb60-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb60-25"><a href="#cb60-25" aria-hidden="true" tabindex="-1"></a><span class="co"># qnorm</span></span>
+<span id="cb60-26"><a href="#cb60-26" aria-hidden="true" tabindex="-1"></a>plot_qnorm <span class="ot">&lt;-</span> tibble<span class="sc">::</span><span class="fu">tibble</span>(</span>
+<span id="cb60-27"><a href="#cb60-27" aria-hidden="true" tabindex="-1"></a>  <span class="at">q_norm =</span> <span class="fu">qnorm</span>(<span class="at">p =</span> <span class="fu">seq</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="at">by =</span> <span class="fl">0.005</span>)), <span class="co"># p: probability</span></span>
+<span id="cb60-28"><a href="#cb60-28" aria-hidden="true" tabindex="-1"></a>  <span class="at">x =</span> <span class="fu">seq</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="at">by =</span> <span class="fl">0.005</span>)</span>
+<span id="cb60-29"><a href="#cb60-29" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb60-30"><a href="#cb60-30" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb60-31"><a href="#cb60-31" aria-hidden="true" tabindex="-1"></a>p3 <span class="ot">&lt;-</span> plot_qnorm <span class="sc">|&gt;</span> </span>
+<span id="cb60-32"><a href="#cb60-32" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tidyplot</span>(<span class="at">x =</span> x, <span class="at">y =</span> q_norm) <span class="sc">|&gt;</span> </span>
+<span id="cb60-33"><a href="#cb60-33" aria-hidden="true" tabindex="-1"></a>  <span class="fu">add_data_points</span>(<span class="at">alpha =</span> <span class="fl">0.2</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb60-34"><a href="#cb60-34" aria-hidden="true" tabindex="-1"></a>  <span class="fu">add_title</span>(<span class="at">title =</span> <span class="st">"'qnorm': quantile"</span>)</span>
+<span id="cb60-35"><a href="#cb60-35" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb60-36"><a href="#cb60-36" aria-hidden="true" tabindex="-1"></a><span class="co"># rnorm</span></span>
+<span id="cb60-37"><a href="#cb60-37" aria-hidden="true" tabindex="-1"></a>plot_rnorm <span class="ot">&lt;-</span> tibble<span class="sc">::</span><span class="fu">tibble</span>(</span>
+<span id="cb60-38"><a href="#cb60-38" aria-hidden="true" tabindex="-1"></a>  <span class="at">r_norm =</span> <span class="fu">rnorm</span>(<span class="at">n =</span> <span class="dv">1000</span>) <span class="co"># n: number of observations</span></span>
+<span id="cb60-39"><a href="#cb60-39" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb60-40"><a href="#cb60-40" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb60-41"><a href="#cb60-41" aria-hidden="true" tabindex="-1"></a>p4 <span class="ot">&lt;-</span> plot_rnorm <span class="sc">|&gt;</span> </span>
+<span id="cb60-42"><a href="#cb60-42" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tidyplot</span>(<span class="at">x =</span> r_norm) <span class="sc">|&gt;</span> </span>
+<span id="cb60-43"><a href="#cb60-43" aria-hidden="true" tabindex="-1"></a>  <span class="fu">add_histogram</span>(<span class="at">bins =</span> <span class="dv">100</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb60-44"><a href="#cb60-44" aria-hidden="true" tabindex="-1"></a>  <span class="fu">add_title</span>(<span class="at">title =</span> <span class="st">"'rnorm': random"</span>)</span>
+<span id="cb60-45"><a href="#cb60-45" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb60-46"><a href="#cb60-46" aria-hidden="true" tabindex="-1"></a>patchwork<span class="sc">::</span><span class="fu">wrap_plots</span>(p1, p2, p3, p4, <span class="at">ncol =</span> <span class="dv">2</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="often_1_files/figure-html/unnamed-chunk-14-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Based on the plots, I (and might you) can now understand them intuitively.</p>
+</section>
+<section id="use-reduce-for-functional-programming" class="level2" data-number="1.6">
+<h2 data-number="1.6" class="anchored" data-anchor-id="use-reduce-for-functional-programming"><span class="header-section-number">1.6</span> Use <code>Reduce</code> for functional programming</h2>
+<p>This is the <a href="https://ggplot2-book.org/programming.html#exercises-3">parallel version</a> but applying to <code>tidyplots</code>.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb61"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb61-1"><a href="#cb61-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyplots)</span>
+<span id="cb61-2"><a href="#cb61-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb61-3"><a href="#cb61-3" aria-hidden="true" tabindex="-1"></a>add_points_curve <span class="ot">&lt;-</span> <span class="cf">function</span>(x, y, ...) {</span>
+<span id="cb61-4"><a href="#cb61-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">Reduce</span>(</span>
+<span id="cb61-5"><a href="#cb61-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">f =</span> <span class="cf">function</span>(init_plot, next_component) {<span class="fu">next_component</span>(init_plot)},</span>
+<span id="cb61-6"><a href="#cb61-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="fu">list</span>(...),</span>
+<span id="cb61-7"><a href="#cb61-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">init =</span> ggplot2<span class="sc">::</span>mpg <span class="sc">|&gt;</span> </span>
+<span id="cb61-8"><a href="#cb61-8" aria-hidden="true" tabindex="-1"></a>      <span class="fu">tidyplot</span>(<span class="at">x =</span> {{x}}, <span class="at">y =</span> {{y}}) <span class="sc">|&gt;</span> </span>
+<span id="cb61-9"><a href="#cb61-9" aria-hidden="true" tabindex="-1"></a>      <span class="fu">add_title</span>(<span class="at">title =</span> <span class="st">"p0"</span>),</span>
+<span id="cb61-10"><a href="#cb61-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">accumulate =</span> <span class="cn">TRUE</span></span>
+<span id="cb61-11"><a href="#cb61-11" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb61-12"><a href="#cb61-12" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb61-13"><a href="#cb61-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb61-14"><a href="#cb61-14" aria-hidden="true" tabindex="-1"></a><span class="fu">add_points_curve</span>(</span>
+<span id="cb61-15"><a href="#cb61-15" aria-hidden="true" tabindex="-1"></a>  <span class="at">x =</span> displ,</span>
+<span id="cb61-16"><a href="#cb61-16" aria-hidden="true" tabindex="-1"></a>  <span class="at">y =</span> hwy,</span>
+<span id="cb61-17"><a href="#cb61-17" aria-hidden="true" tabindex="-1"></a>  <span class="cf">function</span>(plot) {</span>
+<span id="cb61-18"><a href="#cb61-18" aria-hidden="true" tabindex="-1"></a>    <span class="fu">add_data_points_beeswarm</span>(plot, <span class="at">alpha =</span> <span class="fl">0.4</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb61-19"><a href="#cb61-19" aria-hidden="true" tabindex="-1"></a>    <span class="fu">adjust_title</span>(<span class="at">title =</span> <span class="st">"p1"</span>)</span>
+<span id="cb61-20"><a href="#cb61-20" aria-hidden="true" tabindex="-1"></a>  },</span>
+<span id="cb61-21"><a href="#cb61-21" aria-hidden="true" tabindex="-1"></a>  <span class="cf">function</span>(plot) {</span>
+<span id="cb61-22"><a href="#cb61-22" aria-hidden="true" tabindex="-1"></a>    <span class="fu">add_curve_fit</span>(plot, <span class="at">fill =</span> <span class="st">"#bb5566"</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb61-23"><a href="#cb61-23" aria-hidden="true" tabindex="-1"></a>    <span class="fu">adjust_title</span>(<span class="at">title =</span> <span class="st">"p2"</span>)</span>
+<span id="cb61-24"><a href="#cb61-24" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb61-25"><a href="#cb61-25" aria-hidden="true" tabindex="-1"></a>) <span class="sc">|&gt;</span> </span>
+<span id="cb61-26"><a href="#cb61-26" aria-hidden="true" tabindex="-1"></a>  patchwork<span class="sc">::</span><span class="fu">wrap_plots</span>(<span class="at">ncol =</span> <span class="dv">3</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>`geom_smooth()` using formula = 'y ~ x'</code></pre>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="often_1_files/figure-html/unnamed-chunk-15-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
 
 
 </section>

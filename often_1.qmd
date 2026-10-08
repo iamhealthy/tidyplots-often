@@ -116,9 +116,189 @@ df |>
   tidyplot(x = places, y = days, color = places) |> 
   add_sum_bar() |> 
   add_sum_value() |> 
+  add_caption(caption = paste("as of", current_ym)) |> 
   adjust_x_axis(rotate_labels = TRUE)
 ```
 
 I fist lived in Chengcheng county (Shaanxi, China), followed by Yangling town (Shaanxi, China). I am currently living in Shanghai.
 
 So I have lived in Shanghai the longest.
+
+## How to understand the logic of `downsample` parameter of `adjust_colors` function?
+
+This is a source code snippet of `tidyplots::adjust_colors`:
+
+```{r}
+#| eval: false
+        if (n_ratio >= 1) { # n_ratio refers to n_provided/n_requested
+            if (n_ratio > 1) {
+                new_colors <- downsample_vector(new_colors, n_requested, 
+                  downsample = downsample)
+            }
+            suppressMessages(out <- out + ggplot2::scale_color_manual(values = new_colors, 
+                drop = TRUE, labels = labels, ...))
+            suppressMessages(out <- out + ggplot2::scale_fill_manual(values = apply_saturation(new_colors, 
+                saturation = effective_saturation), drop = TRUE, 
+                labels = labels, ...))
+        }
+```
+
+So we need to check the function of `tidyplots:::downsample_vector`:
+
+```{r}
+downsample_vector <- function (x, n, downsample = c("evenly", "first", "last", "middle")) 
+{
+    if (length(x) <= n) {
+        return(x)
+    }
+    downsample <- match.arg(downsample)
+    if (downsample == "evenly") {
+        by <- (length(x)/(n - 1)) - (1/(n - 1))
+        i <- floor(cumsum(c(1, rep(by, n - 1))))
+        x[i]
+    }
+    else if (downsample == "first") {
+        x[1:n]
+    }
+    else if (downsample == "last") {
+        x[(length(x) - n + 1):length(x)]
+    }
+    else {
+        start_index <- ceiling((length(x) - n)/2) + 1
+        end_index <- start_index + n - 1
+        x[start_index:end_index]
+    }
+}
+```
+
+### How about n = 1 (i.e. n_provided > n_requested)?
+
+```{r}
+# New color scheme with length 3
+new_colors <- c("red", "blue", "black")
+new_colors
+```
+
+```{r}
+downsample_vector(new_colors, 1, downsample = "evenly")
+downsample_vector(new_colors, 1, downsample = "first")
+downsample_vector(new_colors, 1, downsample = "last")
+downsample_vector(new_colors, 1, downsample = "middle")
+```
+
+### How about n = 2 (i.e. n_provided > n_requested)?
+
+```{r}
+downsample_vector(new_colors, 2, downsample = "evenly")
+downsample_vector(new_colors, 2, downsample = "first")
+downsample_vector(new_colors, 2, downsample = "last")
+downsample_vector(new_colors, 2, downsample = "middle")
+```
+
+### How about n = 3 (i.e. n_provided = n_requested)?
+
+```{r}
+downsample_vector(new_colors, 3, downsample = "evenly")
+downsample_vector(new_colors, 3, downsample = "first")
+downsample_vector(new_colors, 3, downsample = "last")
+downsample_vector(new_colors, 3, downsample = "middle")
+```
+
+### How about n = 4 (i.e. n_provided < n_requested)?
+
+```{r}
+downsample_vector(new_colors, 4, downsample = "evenly")
+downsample_vector(new_colors, 4, downsample = "first")
+downsample_vector(new_colors, 4, downsample = "last")
+downsample_vector(new_colors, 4, downsample = "middle")
+```
+
+## `dnorm`, `pnorm`, `qnorm`, and `rnorm`?
+
+My math and statistics are, to be honest, not good, and neither is my R. Here I want to understand the four functions outlined in the section title.
+
+`dnorm`: density for the normal distribution; `pnorm`: distribution function for the normal distribution; `qnorm`: quantile function for the normal distribution; `rnorm`: random generation for the normal distribution.
+
+```{r}
+library(tidyplots)
+
+# dnorm
+plot_dnorm <- tibble::tibble(
+  d_norm = dnorm(x = seq(-5, 5, by = 0.05)), # x: quantiles
+  x = seq(-5, 5, by = 0.05)
+)
+  
+p1 <- plot_dnorm |>
+  tidyplot(x = x, y = d_norm) |> 
+  add_data_points(alpha = 0.2) |> 
+  add_title(title = "'dnorm': density")
+
+# pnorm
+plot_pnorm <- tibble::tibble(
+  p_norm = pnorm(q = seq(-5, 5, by = 0.05)), # q: quantiles
+  x = seq(-5, 5, by = 0.05)
+)
+
+p2 <- plot_pnorm |> 
+  tidyplot(x = x, y = p_norm) |> 
+  add_data_points(alpha = 0.2) |> 
+  add_title(title = "'pnorm': distribution")
+
+# qnorm
+plot_qnorm <- tibble::tibble(
+  q_norm = qnorm(p = seq(0, 1, by = 0.005)), # p: probability
+  x = seq(0, 1, by = 0.005)
+)
+
+p3 <- plot_qnorm |> 
+  tidyplot(x = x, y = q_norm) |> 
+  add_data_points(alpha = 0.2) |> 
+  add_title(title = "'qnorm': quantile")
+
+# rnorm
+plot_rnorm <- tibble::tibble(
+  r_norm = rnorm(n = 1000) # n: number of observations
+)
+
+p4 <- plot_rnorm |> 
+  tidyplot(x = r_norm) |> 
+  add_histogram(bins = 100) |> 
+  add_title(title = "'rnorm': random")
+
+patchwork::wrap_plots(p1, p2, p3, p4, ncol = 2)
+```
+
+Based on the plots, I (and might you) can now understand them intuitively.
+
+## Use `Reduce` for functional programming
+
+This is the [parallel version](https://ggplot2-book.org/programming.html#exercises-3) but applying to `tidyplots`.
+
+```{r}
+library(tidyplots)
+
+add_points_curve <- function(x, y, ...) {
+  Reduce(
+    f = function(init_plot, next_component) {next_component(init_plot)},
+    x = list(...),
+    init = ggplot2::mpg |> 
+      tidyplot(x = {{x}}, y = {{y}}) |> 
+      add_title(title = "p0"),
+    accumulate = TRUE
+  )
+}
+
+add_points_curve(
+  x = displ,
+  y = hwy,
+  function(plot) {
+    add_data_points_beeswarm(plot, alpha = 0.4) |> 
+    adjust_title(title = "p1")
+  },
+  function(plot) {
+    add_curve_fit(plot, fill = "#bb5566") |> 
+    adjust_title(title = "p2")
+  }
+) |> 
+  patchwork::wrap_plots(ncol = 3)
+```
