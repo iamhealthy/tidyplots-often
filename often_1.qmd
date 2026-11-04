@@ -302,3 +302,190 @@ add_points_curve(
 ) |> 
   patchwork::wrap_plots(ncol = 3)
 ```
+
+## Character vs. object/argument
+
+I confess I asked ChatGPT because it is abstract to me.
+
+```{r}
+library(tidyplots)
+
+df <- tibble::tibble(
+  a = letters[1:5],
+  b = 1:5
+)
+df
+```
+
+Represent column via character.
+
+```{r}
+x <- "a"
+
+p1 <- df |> 
+  tidyplot(
+    x = a, 
+    y = b, 
+    color = a
+  ) |> 
+  add_sum_bar() |> 
+  add_title(title = "p1: ordinary way")
+p1
+
+rlang::sym(x) # change it to an object
+
+p2 <- df |> 
+  tidyplot(
+    x = !!rlang::sym(x), 
+    y = b, 
+    color = !!rlang::sym(x) # sym: symbol
+  ) |> 
+  add_sum_bar() |> 
+  add_title(title = "p2: via 'rlang::sym()'")
+p2
+```
+
+> `sym()` take string as input and turn it into symbol. Symbol is a kind of defused expression that represent object in environment.
+
+```{r}
+p3 <- df |> 
+  tidyplot(
+    x = .data[[x]], 
+    y = b, 
+    color = .data[[x]]
+  ) |> 
+  add_sum_bar() |> 
+  add_title(title = "p3: via '.data[[x]]'")
+p3
+```
+
+By the way, if we want to add a new column (i.e. ab) to df, we could:
+
+```{r}
+# Ordinary way 1
+df |> 
+  dplyr::mutate(ab = 11:15)
+
+# Way 2
+df |> 
+  dplyr::mutate(
+    !!paste0(x, "b") := 11:15
+  )
+
+# Way 3
+add_a_new_column <- function(df, new_column) {
+  df_new <- df |> 
+    dplyr::mutate(
+      !!paste0(rlang::as_name(rlang::enquo(new_column)), "b") := 11:15
+    )
+
+  print(rlang::enquo(new_column)) # defuse function argument
+
+  print(rlang::as_name(rlang::enquo(new_column))) # extract name from a symbol
+
+  return(df_new)
+}
+
+add_a_new_column(df = df, new_column = a)
+
+# Way 4
+add_a_new_column <- function(df, new_column) {
+  df_new <- df |> 
+    dplyr::mutate(
+      !!paste0(new_column, "b") := 11:15
+    )
+
+  return(df_new)
+}
+
+add_a_new_column(df = df, new_column = "a")
+```
+
+Last, invoke plot via function:
+
+```{r}
+plot1 <- function(df, x_column) {
+  p <- df |> 
+    tidyplot(x = {{ x_column }}, y = b, color = {{ x_column }}) |> 
+    add_sum_bar()
+
+  return(p)
+}
+plot1(df, x_column = a)
+
+plot2 <- function(df, x_column) {
+  p <- df |> 
+    tidyplot(x = !!rlang::sym(x_column), y = b, color = !!rlang::sym(x_column)) |> 
+    add_sum_bar()
+
+  return(p)
+}
+plot2(df, x_column = "a")
+
+plot3 <- function(df, x_column) {
+  p <- df |> 
+    tidyplot(x = .data[[x_column]], y = b, color = .data[[x_column]]) |> 
+    add_sum_bar()
+
+  return(p)
+}
+plot3(df, x_column = "a")
+```
+
+## Add percent annotation
+
+Suppose I have a proportion of 0.15 (i.e. 15%), and I want to put it somewhere in a plot with "15.0%".
+
+```{r}
+library(tidyplots)
+
+df <- tibble::tibble(
+  x = 1,
+  y = 1,
+  label = 0.15
+)
+
+p0 <- df |> 
+  tidyplot(x = x, y = y) |> 
+  add_data_points() 
+
+p1 <- p0 |> 
+  add_data_labels(label = label) |> 
+  add_title(title = "p1")
+
+p2 <- p0 |> 
+  add_title(title = "p2: via scales::number()") |> 
+  add_data_labels(
+    label = scales::number(
+      label, 
+      scale = 100, # label * 100
+      accuracy = 0.1,
+      suffix = "%"      
+    )
+  )
+
+p3 <- p0 |> 
+  add_title(title = "p3: via paste0") |> 
+  add_data_labels(
+    label = paste0(
+      label * 100,
+      ".0%"
+    )
+  )
+
+p4 <- df |> 
+  dplyr::mutate(
+    label = scales::number( # should also be possible via `paste0`
+      label, 
+      scale = 100, # label * 100
+      accuracy = 0.1,
+      suffix = "%"      
+    )
+  ) |> 
+  tidyplot(x = x, y = y) |> 
+  add_data_points() |> 
+  add_data_labels(label = label) |> 
+  add_title(title = "p4: via dplyr::mutate() and scales::number()")
+
+patchwork::wrap_plots(p1, p2, p3, p4)
+```

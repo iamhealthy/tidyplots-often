@@ -347,6 +347,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   </ul></li>
   <li><a href="#dnorm-pnorm-qnorm-and-rnorm" id="toc-dnorm-pnorm-qnorm-and-rnorm" class="nav-link" data-scroll-target="#dnorm-pnorm-qnorm-and-rnorm"><span class="header-section-number">1.5</span> <code>dnorm</code>, <code>pnorm</code>, <code>qnorm</code>, and <code>rnorm</code>?</a></li>
   <li><a href="#use-reduce-for-functional-programming" id="toc-use-reduce-for-functional-programming" class="nav-link" data-scroll-target="#use-reduce-for-functional-programming"><span class="header-section-number">1.6</span> Use <code>Reduce</code> for functional programming</a></li>
+  <li><a href="#character-vs.-objectargument" id="toc-character-vs.-objectargument" class="nav-link" data-scroll-target="#character-vs.-objectargument"><span class="header-section-number">1.7</span> Character vs.&nbsp;object/argument</a></li>
+  <li><a href="#add-percent-annotation" id="toc-add-percent-annotation" class="nav-link" data-scroll-target="#add-percent-annotation"><span class="header-section-number">1.8</span> Add percent annotation</a></li>
   </ul>
 </nav>
     </div>
@@ -495,7 +497,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     }
     plot
 }
-&lt;bytecode: 0x000002d12ba7e658&gt;
+&lt;bytecode: 0x00000208eb9a44d8&gt;
 &lt;environment: namespace:tidyplots&gt;</code></pre>
 </div>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>ggplot2<span class="sc">::</span>faithfuld <span class="sc">|&gt;</span> </span>
@@ -558,7 +560,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   &lt;ord&gt;             &lt;dbl&gt;
 1 Chengcheng county  6756
 2 Yangling town      2129
-3 Shanghai           7001</code></pre>
+3 Shanghai           7032</code></pre>
 </div>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>df <span class="sc">|&gt;</span> </span>
 <span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tidyplot</span>(<span class="at">x =</span> places, <span class="at">y =</span> days, <span class="at">color =</span> places) <span class="sc">|&gt;</span> </span>
@@ -810,6 +812,286 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div>
 <figure class="figure">
 <p><img src="often_1_files/figure-html/unnamed-chunk-15-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="character-vs.-objectargument" class="level2" data-number="1.7">
+<h2 data-number="1.7" class="anchored" data-anchor-id="character-vs.-objectargument"><span class="header-section-number">1.7</span> Character vs.&nbsp;object/argument</h2>
+<p>I confess I asked ChatGPT because it is abstract to me.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb63"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb63-1"><a href="#cb63-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyplots)</span>
+<span id="cb63-2"><a href="#cb63-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb63-3"><a href="#cb63-3" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> tibble<span class="sc">::</span><span class="fu">tibble</span>(</span>
+<span id="cb63-4"><a href="#cb63-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">a =</span> letters[<span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>],</span>
+<span id="cb63-5"><a href="#cb63-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">b =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">5</span></span>
+<span id="cb63-6"><a href="#cb63-6" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb63-7"><a href="#cb63-7" aria-hidden="true" tabindex="-1"></a>df</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 5 × 2
+  a         b
+  &lt;chr&gt; &lt;int&gt;
+1 a         1
+2 b         2
+3 c         3
+4 d         4
+5 e         5</code></pre>
+</div>
+</div>
+<p>Represent column via character.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb65"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb65-1"><a href="#cb65-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="st">"a"</span></span>
+<span id="cb65-2"><a href="#cb65-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb65-3"><a href="#cb65-3" aria-hidden="true" tabindex="-1"></a>p1 <span class="ot">&lt;-</span> df <span class="sc">|&gt;</span> </span>
+<span id="cb65-4"><a href="#cb65-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tidyplot</span>(</span>
+<span id="cb65-5"><a href="#cb65-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> a, </span>
+<span id="cb65-6"><a href="#cb65-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> b, </span>
+<span id="cb65-7"><a href="#cb65-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">color =</span> a</span>
+<span id="cb65-8"><a href="#cb65-8" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span> </span>
+<span id="cb65-9"><a href="#cb65-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">add_sum_bar</span>() <span class="sc">|&gt;</span> </span>
+<span id="cb65-10"><a href="#cb65-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">add_title</span>(<span class="at">title =</span> <span class="st">"p1: ordinary way"</span>)</span>
+<span id="cb65-11"><a href="#cb65-11" aria-hidden="true" tabindex="-1"></a>p1</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="often_1_files/figure-html/unnamed-chunk-17-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb66"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb66-1"><a href="#cb66-1" aria-hidden="true" tabindex="-1"></a>rlang<span class="sc">::</span><span class="fu">sym</span>(x) <span class="co"># change it to an object</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>a</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb68"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb68-1"><a href="#cb68-1" aria-hidden="true" tabindex="-1"></a>p2 <span class="ot">&lt;-</span> df <span class="sc">|&gt;</span> </span>
+<span id="cb68-2"><a href="#cb68-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tidyplot</span>(</span>
+<span id="cb68-3"><a href="#cb68-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="sc">!!</span>rlang<span class="sc">::</span><span class="fu">sym</span>(x), </span>
+<span id="cb68-4"><a href="#cb68-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> b, </span>
+<span id="cb68-5"><a href="#cb68-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">color =</span> <span class="sc">!!</span>rlang<span class="sc">::</span><span class="fu">sym</span>(x) <span class="co"># sym: symbol</span></span>
+<span id="cb68-6"><a href="#cb68-6" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span> </span>
+<span id="cb68-7"><a href="#cb68-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">add_sum_bar</span>() <span class="sc">|&gt;</span> </span>
+<span id="cb68-8"><a href="#cb68-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">add_title</span>(<span class="at">title =</span> <span class="st">"p2: via 'rlang::sym()'"</span>)</span>
+<span id="cb68-9"><a href="#cb68-9" aria-hidden="true" tabindex="-1"></a>p2</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="often_1_files/figure-html/unnamed-chunk-17-2.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<blockquote class="blockquote">
+<p><code>sym()</code> take string as input and turn it into symbol. Symbol is a kind of defused expression that represent object in environment.</p>
+</blockquote>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb69"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb69-1"><a href="#cb69-1" aria-hidden="true" tabindex="-1"></a>p3 <span class="ot">&lt;-</span> df <span class="sc">|&gt;</span> </span>
+<span id="cb69-2"><a href="#cb69-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tidyplot</span>(</span>
+<span id="cb69-3"><a href="#cb69-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> .data[[x]], </span>
+<span id="cb69-4"><a href="#cb69-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> b, </span>
+<span id="cb69-5"><a href="#cb69-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">color =</span> .data[[x]]</span>
+<span id="cb69-6"><a href="#cb69-6" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span> </span>
+<span id="cb69-7"><a href="#cb69-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">add_sum_bar</span>() <span class="sc">|&gt;</span> </span>
+<span id="cb69-8"><a href="#cb69-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">add_title</span>(<span class="at">title =</span> <span class="st">"p3: via '.data[[x]]'"</span>)</span>
+<span id="cb69-9"><a href="#cb69-9" aria-hidden="true" tabindex="-1"></a>p3</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="often_1_files/figure-html/unnamed-chunk-18-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>By the way, if we want to add a new column (i.e.&nbsp;ab) to df, we could:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb70"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb70-1"><a href="#cb70-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Ordinary way 1</span></span>
+<span id="cb70-2"><a href="#cb70-2" aria-hidden="true" tabindex="-1"></a>df <span class="sc">|&gt;</span> </span>
+<span id="cb70-3"><a href="#cb70-3" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">mutate</span>(<span class="at">ab =</span> <span class="dv">11</span><span class="sc">:</span><span class="dv">15</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 5 × 3
+  a         b    ab
+  &lt;chr&gt; &lt;int&gt; &lt;int&gt;
+1 a         1    11
+2 b         2    12
+3 c         3    13
+4 d         4    14
+5 e         5    15</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb72"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb72-1"><a href="#cb72-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Way 2</span></span>
+<span id="cb72-2"><a href="#cb72-2" aria-hidden="true" tabindex="-1"></a>df <span class="sc">|&gt;</span> </span>
+<span id="cb72-3"><a href="#cb72-3" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">mutate</span>(</span>
+<span id="cb72-4"><a href="#cb72-4" aria-hidden="true" tabindex="-1"></a>    <span class="sc">!!</span><span class="fu">paste0</span>(x, <span class="st">"b"</span>) <span class="sc">:</span><span class="er">=</span> <span class="dv">11</span><span class="sc">:</span><span class="dv">15</span></span>
+<span id="cb72-5"><a href="#cb72-5" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 5 × 3
+  a         b    ab
+  &lt;chr&gt; &lt;int&gt; &lt;int&gt;
+1 a         1    11
+2 b         2    12
+3 c         3    13
+4 d         4    14
+5 e         5    15</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb74"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb74-1"><a href="#cb74-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Way 3</span></span>
+<span id="cb74-2"><a href="#cb74-2" aria-hidden="true" tabindex="-1"></a>add_a_new_column <span class="ot">&lt;-</span> <span class="cf">function</span>(df, new_column) {</span>
+<span id="cb74-3"><a href="#cb74-3" aria-hidden="true" tabindex="-1"></a>  df_new <span class="ot">&lt;-</span> df <span class="sc">|&gt;</span> </span>
+<span id="cb74-4"><a href="#cb74-4" aria-hidden="true" tabindex="-1"></a>    dplyr<span class="sc">::</span><span class="fu">mutate</span>(</span>
+<span id="cb74-5"><a href="#cb74-5" aria-hidden="true" tabindex="-1"></a>      <span class="sc">!!</span><span class="fu">paste0</span>(rlang<span class="sc">::</span><span class="fu">as_name</span>(rlang<span class="sc">::</span><span class="fu">enquo</span>(new_column)), <span class="st">"b"</span>) <span class="sc">:</span><span class="er">=</span> <span class="dv">11</span><span class="sc">:</span><span class="dv">15</span></span>
+<span id="cb74-6"><a href="#cb74-6" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb74-7"><a href="#cb74-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb74-8"><a href="#cb74-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">print</span>(rlang<span class="sc">::</span><span class="fu">enquo</span>(new_column)) <span class="co"># defuse function argument</span></span>
+<span id="cb74-9"><a href="#cb74-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb74-10"><a href="#cb74-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">print</span>(rlang<span class="sc">::</span><span class="fu">as_name</span>(rlang<span class="sc">::</span><span class="fu">enquo</span>(new_column))) <span class="co"># extract name from a symbol</span></span>
+<span id="cb74-11"><a href="#cb74-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb74-12"><a href="#cb74-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(df_new)</span>
+<span id="cb74-13"><a href="#cb74-13" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb74-14"><a href="#cb74-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb74-15"><a href="#cb74-15" aria-hidden="true" tabindex="-1"></a><span class="fu">add_a_new_column</span>(<span class="at">df =</span> df, <span class="at">new_column =</span> a)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>&lt;quosure&gt;
+expr: ^a
+env:  global
+[1] "a"</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 5 × 3
+  a         b    ab
+  &lt;chr&gt; &lt;int&gt; &lt;int&gt;
+1 a         1    11
+2 b         2    12
+3 c         3    13
+4 d         4    14
+5 e         5    15</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb77"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb77-1"><a href="#cb77-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Way 4</span></span>
+<span id="cb77-2"><a href="#cb77-2" aria-hidden="true" tabindex="-1"></a>add_a_new_column <span class="ot">&lt;-</span> <span class="cf">function</span>(df, new_column) {</span>
+<span id="cb77-3"><a href="#cb77-3" aria-hidden="true" tabindex="-1"></a>  df_new <span class="ot">&lt;-</span> df <span class="sc">|&gt;</span> </span>
+<span id="cb77-4"><a href="#cb77-4" aria-hidden="true" tabindex="-1"></a>    dplyr<span class="sc">::</span><span class="fu">mutate</span>(</span>
+<span id="cb77-5"><a href="#cb77-5" aria-hidden="true" tabindex="-1"></a>      <span class="sc">!!</span><span class="fu">paste0</span>(new_column, <span class="st">"b"</span>) <span class="sc">:</span><span class="er">=</span> <span class="dv">11</span><span class="sc">:</span><span class="dv">15</span></span>
+<span id="cb77-6"><a href="#cb77-6" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb77-7"><a href="#cb77-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb77-8"><a href="#cb77-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(df_new)</span>
+<span id="cb77-9"><a href="#cb77-9" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb77-10"><a href="#cb77-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb77-11"><a href="#cb77-11" aria-hidden="true" tabindex="-1"></a><span class="fu">add_a_new_column</span>(<span class="at">df =</span> df, <span class="at">new_column =</span> <span class="st">"a"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 5 × 3
+  a         b    ab
+  &lt;chr&gt; &lt;int&gt; &lt;int&gt;
+1 a         1    11
+2 b         2    12
+3 c         3    13
+4 d         4    14
+5 e         5    15</code></pre>
+</div>
+</div>
+<p>Last, invoke plot via function:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb79"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb79-1"><a href="#cb79-1" aria-hidden="true" tabindex="-1"></a>plot1 <span class="ot">&lt;-</span> <span class="cf">function</span>(df, x_column) {</span>
+<span id="cb79-2"><a href="#cb79-2" aria-hidden="true" tabindex="-1"></a>  p <span class="ot">&lt;-</span> df <span class="sc">|&gt;</span> </span>
+<span id="cb79-3"><a href="#cb79-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">tidyplot</span>(<span class="at">x =</span> {{ x_column }}, <span class="at">y =</span> b, <span class="at">color =</span> {{ x_column }}) <span class="sc">|&gt;</span> </span>
+<span id="cb79-4"><a href="#cb79-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">add_sum_bar</span>()</span>
+<span id="cb79-5"><a href="#cb79-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb79-6"><a href="#cb79-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(p)</span>
+<span id="cb79-7"><a href="#cb79-7" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb79-8"><a href="#cb79-8" aria-hidden="true" tabindex="-1"></a><span class="fu">plot1</span>(df, <span class="at">x_column =</span> a)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="often_1_files/figure-html/unnamed-chunk-20-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb80"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb80-1"><a href="#cb80-1" aria-hidden="true" tabindex="-1"></a>plot2 <span class="ot">&lt;-</span> <span class="cf">function</span>(df, x_column) {</span>
+<span id="cb80-2"><a href="#cb80-2" aria-hidden="true" tabindex="-1"></a>  p <span class="ot">&lt;-</span> df <span class="sc">|&gt;</span> </span>
+<span id="cb80-3"><a href="#cb80-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">tidyplot</span>(<span class="at">x =</span> <span class="sc">!!</span>rlang<span class="sc">::</span><span class="fu">sym</span>(x_column), <span class="at">y =</span> b, <span class="at">color =</span> <span class="sc">!!</span>rlang<span class="sc">::</span><span class="fu">sym</span>(x_column)) <span class="sc">|&gt;</span> </span>
+<span id="cb80-4"><a href="#cb80-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">add_sum_bar</span>()</span>
+<span id="cb80-5"><a href="#cb80-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb80-6"><a href="#cb80-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(p)</span>
+<span id="cb80-7"><a href="#cb80-7" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb80-8"><a href="#cb80-8" aria-hidden="true" tabindex="-1"></a><span class="fu">plot2</span>(df, <span class="at">x_column =</span> <span class="st">"a"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="often_1_files/figure-html/unnamed-chunk-20-2.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb81"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb81-1"><a href="#cb81-1" aria-hidden="true" tabindex="-1"></a>plot3 <span class="ot">&lt;-</span> <span class="cf">function</span>(df, x_column) {</span>
+<span id="cb81-2"><a href="#cb81-2" aria-hidden="true" tabindex="-1"></a>  p <span class="ot">&lt;-</span> df <span class="sc">|&gt;</span> </span>
+<span id="cb81-3"><a href="#cb81-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">tidyplot</span>(<span class="at">x =</span> .data[[x_column]], <span class="at">y =</span> b, <span class="at">color =</span> .data[[x_column]]) <span class="sc">|&gt;</span> </span>
+<span id="cb81-4"><a href="#cb81-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">add_sum_bar</span>()</span>
+<span id="cb81-5"><a href="#cb81-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb81-6"><a href="#cb81-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(p)</span>
+<span id="cb81-7"><a href="#cb81-7" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb81-8"><a href="#cb81-8" aria-hidden="true" tabindex="-1"></a><span class="fu">plot3</span>(df, <span class="at">x_column =</span> <span class="st">"a"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="often_1_files/figure-html/unnamed-chunk-20-3.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="add-percent-annotation" class="level2" data-number="1.8">
+<h2 data-number="1.8" class="anchored" data-anchor-id="add-percent-annotation"><span class="header-section-number">1.8</span> Add percent annotation</h2>
+<p>Suppose I have a proportion of 0.15 (i.e.&nbsp;15%), and I want to put it somewhere in a plot with “15.0%”.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb82"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb82-1"><a href="#cb82-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyplots)</span>
+<span id="cb82-2"><a href="#cb82-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb82-3"><a href="#cb82-3" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> tibble<span class="sc">::</span><span class="fu">tibble</span>(</span>
+<span id="cb82-4"><a href="#cb82-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">x =</span> <span class="dv">1</span>,</span>
+<span id="cb82-5"><a href="#cb82-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">y =</span> <span class="dv">1</span>,</span>
+<span id="cb82-6"><a href="#cb82-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">label =</span> <span class="fl">0.15</span></span>
+<span id="cb82-7"><a href="#cb82-7" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb82-8"><a href="#cb82-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb82-9"><a href="#cb82-9" aria-hidden="true" tabindex="-1"></a>p0 <span class="ot">&lt;-</span> df <span class="sc">|&gt;</span> </span>
+<span id="cb82-10"><a href="#cb82-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tidyplot</span>(<span class="at">x =</span> x, <span class="at">y =</span> y) <span class="sc">|&gt;</span> </span>
+<span id="cb82-11"><a href="#cb82-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">add_data_points</span>() </span>
+<span id="cb82-12"><a href="#cb82-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb82-13"><a href="#cb82-13" aria-hidden="true" tabindex="-1"></a>p1 <span class="ot">&lt;-</span> p0 <span class="sc">|&gt;</span> </span>
+<span id="cb82-14"><a href="#cb82-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">add_data_labels</span>(<span class="at">label =</span> label) <span class="sc">|&gt;</span> </span>
+<span id="cb82-15"><a href="#cb82-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">add_title</span>(<span class="at">title =</span> <span class="st">"p1"</span>)</span>
+<span id="cb82-16"><a href="#cb82-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb82-17"><a href="#cb82-17" aria-hidden="true" tabindex="-1"></a>p2 <span class="ot">&lt;-</span> p0 <span class="sc">|&gt;</span> </span>
+<span id="cb82-18"><a href="#cb82-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">add_title</span>(<span class="at">title =</span> <span class="st">"p2: via scales::number()"</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb82-19"><a href="#cb82-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">add_data_labels</span>(</span>
+<span id="cb82-20"><a href="#cb82-20" aria-hidden="true" tabindex="-1"></a>    <span class="at">label =</span> scales<span class="sc">::</span><span class="fu">number</span>(</span>
+<span id="cb82-21"><a href="#cb82-21" aria-hidden="true" tabindex="-1"></a>      label, </span>
+<span id="cb82-22"><a href="#cb82-22" aria-hidden="true" tabindex="-1"></a>      <span class="at">scale =</span> <span class="dv">100</span>, <span class="co"># label * 100</span></span>
+<span id="cb82-23"><a href="#cb82-23" aria-hidden="true" tabindex="-1"></a>      <span class="at">accuracy =</span> <span class="fl">0.1</span>,</span>
+<span id="cb82-24"><a href="#cb82-24" aria-hidden="true" tabindex="-1"></a>      <span class="at">suffix =</span> <span class="st">"%"</span>      </span>
+<span id="cb82-25"><a href="#cb82-25" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb82-26"><a href="#cb82-26" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb82-27"><a href="#cb82-27" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb82-28"><a href="#cb82-28" aria-hidden="true" tabindex="-1"></a>p3 <span class="ot">&lt;-</span> p0 <span class="sc">|&gt;</span> </span>
+<span id="cb82-29"><a href="#cb82-29" aria-hidden="true" tabindex="-1"></a>  <span class="fu">add_title</span>(<span class="at">title =</span> <span class="st">"p3: via paste0"</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb82-30"><a href="#cb82-30" aria-hidden="true" tabindex="-1"></a>  <span class="fu">add_data_labels</span>(</span>
+<span id="cb82-31"><a href="#cb82-31" aria-hidden="true" tabindex="-1"></a>    <span class="at">label =</span> <span class="fu">paste0</span>(</span>
+<span id="cb82-32"><a href="#cb82-32" aria-hidden="true" tabindex="-1"></a>      label <span class="sc">*</span> <span class="dv">100</span>,</span>
+<span id="cb82-33"><a href="#cb82-33" aria-hidden="true" tabindex="-1"></a>      <span class="st">".0%"</span></span>
+<span id="cb82-34"><a href="#cb82-34" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb82-35"><a href="#cb82-35" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb82-36"><a href="#cb82-36" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb82-37"><a href="#cb82-37" aria-hidden="true" tabindex="-1"></a>p4 <span class="ot">&lt;-</span> df <span class="sc">|&gt;</span> </span>
+<span id="cb82-38"><a href="#cb82-38" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">mutate</span>(</span>
+<span id="cb82-39"><a href="#cb82-39" aria-hidden="true" tabindex="-1"></a>    <span class="at">label =</span> scales<span class="sc">::</span><span class="fu">number</span>( <span class="co"># should also be possible via `paste0`</span></span>
+<span id="cb82-40"><a href="#cb82-40" aria-hidden="true" tabindex="-1"></a>      label, </span>
+<span id="cb82-41"><a href="#cb82-41" aria-hidden="true" tabindex="-1"></a>      <span class="at">scale =</span> <span class="dv">100</span>, <span class="co"># label * 100</span></span>
+<span id="cb82-42"><a href="#cb82-42" aria-hidden="true" tabindex="-1"></a>      <span class="at">accuracy =</span> <span class="fl">0.1</span>,</span>
+<span id="cb82-43"><a href="#cb82-43" aria-hidden="true" tabindex="-1"></a>      <span class="at">suffix =</span> <span class="st">"%"</span>      </span>
+<span id="cb82-44"><a href="#cb82-44" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb82-45"><a href="#cb82-45" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span> </span>
+<span id="cb82-46"><a href="#cb82-46" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tidyplot</span>(<span class="at">x =</span> x, <span class="at">y =</span> y) <span class="sc">|&gt;</span> </span>
+<span id="cb82-47"><a href="#cb82-47" aria-hidden="true" tabindex="-1"></a>  <span class="fu">add_data_points</span>() <span class="sc">|&gt;</span> </span>
+<span id="cb82-48"><a href="#cb82-48" aria-hidden="true" tabindex="-1"></a>  <span class="fu">add_data_labels</span>(<span class="at">label =</span> label) <span class="sc">|&gt;</span> </span>
+<span id="cb82-49"><a href="#cb82-49" aria-hidden="true" tabindex="-1"></a>  <span class="fu">add_title</span>(<span class="at">title =</span> <span class="st">"p4: via dplyr::mutate() and scales::number()"</span>)</span>
+<span id="cb82-50"><a href="#cb82-50" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb82-51"><a href="#cb82-51" aria-hidden="true" tabindex="-1"></a>patchwork<span class="sc">::</span><span class="fu">wrap_plots</span>(p1, p2, p3, p4)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="often_1_files/figure-html/unnamed-chunk-21-1.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
