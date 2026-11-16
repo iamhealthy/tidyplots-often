@@ -489,3 +489,33 @@ p4 <- df |>
 
 patchwork::wrap_plots(p1, p2, p3, p4)
 ```
+
+## Display empty levels
+
+```{r}
+library(tidyplots)
+
+# From https://r4ds.hadley.nz/missing-values.html#factors-and-empty-groups
+health <- tibble::tibble(
+  name   = c("Ikaia", "Oletta", "Leriah", "Dashay", "Tresaun"),
+  smoker = factor(c("no", "no", "no", "no", "no"), levels = c("yes", "no")),
+  age    = c(34, 88, 75, 47, 56),
+)
+
+# The level yes is empty
+health
+health$smoker |> levels()
+
+# Plot
+p1 <- health |> 
+  tidyplot(x = smoker) |> 
+  add_count_bar() |> 
+  add_count_value() |> 
+  add_title(title = "p1: no 'yes' level")
+
+p2 <- p1 |> 
+  adjust_title(title = "p2: with 'yes' level") |> 
+  add(ggplot2::scale_x_discrete(drop = FALSE))
+
+patchwork::wrap_plots(p1, p2, ncol = 2)
+```
