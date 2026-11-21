@@ -519,3 +519,38 @@ p2 <- p1 |>
 
 patchwork::wrap_plots(p1, p2, ncol = 2)
 ```
+
+## How long does my junior high school daughter sleep on weekdays?
+
+```{r}
+library(tidyplots)
+
+df <- tibble::tibble(
+  sleep_at = lubridate::ymd_hm(
+    paste(
+      Sys.Date(), 
+      "23:30", 
+      sep = " ")
+    ), # the deadline, sometimes earlier
+  get_up_at = lubridate::ymd_hm(
+    paste(
+      Sys.Date() + 1, 
+      "6:50", 
+      sep = " ")
+    ), # fixed time
+  seconds = (get_up_at - sleep_at) |> 
+    lubridate::as.duration(),
+  hours = seconds / 3600, # 3600s per hour
+  sleep_duration = "sleep_duration"
+)
+df
+
+df |> 
+  tidyplot(x = sleep_duration, y = hours) |> 
+  add_sum_bar() |> 
+  add_sum_value(fontsize = 12) |> 
+  remove_x_axis_labels() |> 
+  add_caption(caption = "7.3h means 7h 18min, not 7h 30min")
+```
+
+Sleeping at 23:30 does not mean finishing homework at that time. It simply means that student might be used to going to bed at that time.

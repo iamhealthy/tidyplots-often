@@ -350,6 +350,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#character-vs.-objectargument" id="toc-character-vs.-objectargument" class="nav-link" data-scroll-target="#character-vs.-objectargument"><span class="header-section-number">1.7</span> Character vs.&nbsp;object/argument</a></li>
   <li><a href="#add-percent-annotation" id="toc-add-percent-annotation" class="nav-link" data-scroll-target="#add-percent-annotation"><span class="header-section-number">1.8</span> Add percent annotation</a></li>
   <li><a href="#display-empty-levels" id="toc-display-empty-levels" class="nav-link" data-scroll-target="#display-empty-levels"><span class="header-section-number">1.9</span> Display empty levels</a></li>
+  <li><a href="#how-long-does-my-junior-high-school-daughter-sleep-on-weekdays" id="toc-how-long-does-my-junior-high-school-daughter-sleep-on-weekdays" class="nav-link" data-scroll-target="#how-long-does-my-junior-high-school-daughter-sleep-on-weekdays"><span class="header-section-number">1.10</span> How long does my junior high school daughter sleep on weekdays?</a></li>
   </ul>
 </nav>
     </div>
@@ -498,7 +499,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     }
     plot
 }
-&lt;bytecode: 0x0000014b99a12af8&gt;
+&lt;bytecode: 0x00000234e494b820&gt;
 &lt;environment: namespace:tidyplots&gt;</code></pre>
 </div>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>ggplot2<span class="sc">::</span>faithfuld <span class="sc">|&gt;</span> </span>
@@ -1149,6 +1150,53 @@ Adding another scale for x, which will replace the existing scale.</code></pre>
 </div>
 </div>
 </div>
+</section>
+<section id="how-long-does-my-junior-high-school-daughter-sleep-on-weekdays" class="level2" data-number="1.10">
+<h2 data-number="1.10" class="anchored" data-anchor-id="how-long-does-my-junior-high-school-daughter-sleep-on-weekdays"><span class="header-section-number">1.10</span> How long does my junior high school daughter sleep on weekdays?</h2>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb90"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb90-1"><a href="#cb90-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyplots)</span>
+<span id="cb90-2"><a href="#cb90-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb90-3"><a href="#cb90-3" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> tibble<span class="sc">::</span><span class="fu">tibble</span>(</span>
+<span id="cb90-4"><a href="#cb90-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">sleep_at =</span> lubridate<span class="sc">::</span><span class="fu">ymd_hm</span>(</span>
+<span id="cb90-5"><a href="#cb90-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">paste</span>(</span>
+<span id="cb90-6"><a href="#cb90-6" aria-hidden="true" tabindex="-1"></a>      <span class="fu">Sys.Date</span>(), </span>
+<span id="cb90-7"><a href="#cb90-7" aria-hidden="true" tabindex="-1"></a>      <span class="st">"23:30"</span>, </span>
+<span id="cb90-8"><a href="#cb90-8" aria-hidden="true" tabindex="-1"></a>      <span class="at">sep =</span> <span class="st">" "</span>)</span>
+<span id="cb90-9"><a href="#cb90-9" aria-hidden="true" tabindex="-1"></a>    ), <span class="co"># the deadline, sometimes earlier</span></span>
+<span id="cb90-10"><a href="#cb90-10" aria-hidden="true" tabindex="-1"></a>  <span class="at">get_up_at =</span> lubridate<span class="sc">::</span><span class="fu">ymd_hm</span>(</span>
+<span id="cb90-11"><a href="#cb90-11" aria-hidden="true" tabindex="-1"></a>    <span class="fu">paste</span>(</span>
+<span id="cb90-12"><a href="#cb90-12" aria-hidden="true" tabindex="-1"></a>      <span class="fu">Sys.Date</span>() <span class="sc">+</span> <span class="dv">1</span>, </span>
+<span id="cb90-13"><a href="#cb90-13" aria-hidden="true" tabindex="-1"></a>      <span class="st">"6:50"</span>, </span>
+<span id="cb90-14"><a href="#cb90-14" aria-hidden="true" tabindex="-1"></a>      <span class="at">sep =</span> <span class="st">" "</span>)</span>
+<span id="cb90-15"><a href="#cb90-15" aria-hidden="true" tabindex="-1"></a>    ), <span class="co"># fixed time</span></span>
+<span id="cb90-16"><a href="#cb90-16" aria-hidden="true" tabindex="-1"></a>  <span class="at">seconds =</span> (get_up_at <span class="sc">-</span> sleep_at) <span class="sc">|&gt;</span> </span>
+<span id="cb90-17"><a href="#cb90-17" aria-hidden="true" tabindex="-1"></a>    lubridate<span class="sc">::</span><span class="fu">as.duration</span>(),</span>
+<span id="cb90-18"><a href="#cb90-18" aria-hidden="true" tabindex="-1"></a>  <span class="at">hours =</span> seconds <span class="sc">/</span> <span class="dv">3600</span>, <span class="co"># 3600s per hour</span></span>
+<span id="cb90-19"><a href="#cb90-19" aria-hidden="true" tabindex="-1"></a>  <span class="at">sleep_duration =</span> <span class="st">"sleep_duration"</span></span>
+<span id="cb90-20"><a href="#cb90-20" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb90-21"><a href="#cb90-21" aria-hidden="true" tabindex="-1"></a>df</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 1 × 5
+  sleep_at            get_up_at           seconds              hours            
+  &lt;dttm&gt;              &lt;dttm&gt;              &lt;Duration&gt;           &lt;Duration&gt;       
+1 2026-11-21 23:30:00 2026-11-22 06:50:00 26400s (~7.33 hours) 7.33333333333333s
+# ℹ 1 more variable: sleep_duration &lt;chr&gt;</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb92"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb92-1"><a href="#cb92-1" aria-hidden="true" tabindex="-1"></a>df <span class="sc">|&gt;</span> </span>
+<span id="cb92-2"><a href="#cb92-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tidyplot</span>(<span class="at">x =</span> sleep_duration, <span class="at">y =</span> hours) <span class="sc">|&gt;</span> </span>
+<span id="cb92-3"><a href="#cb92-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">add_sum_bar</span>() <span class="sc">|&gt;</span> </span>
+<span id="cb92-4"><a href="#cb92-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">add_sum_value</span>(<span class="at">fontsize =</span> <span class="dv">12</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb92-5"><a href="#cb92-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">remove_x_axis_labels</span>() <span class="sc">|&gt;</span> </span>
+<span id="cb92-6"><a href="#cb92-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">add_caption</span>(<span class="at">caption =</span> <span class="st">"7.3h means 7h 18min, not 7h 30min"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="often_1_files/figure-html/unnamed-chunk-23-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Sleeping at 23:30 does not mean finishing homework at that time. It simply means that student might be used to going to bed at that time.</p>
 
 
 </section>
