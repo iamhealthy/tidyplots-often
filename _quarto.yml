@@ -4,6 +4,8 @@ project:
 book:
   title: "Tidyplots from time to time"
   author: "Kang Wu"
+  cover-image: images/sparrow_in_limestone.webp
+  favicon: images/sparrow_in_limestone.webp
 
   chapters:
     - index.qmd

@@ -553,4 +553,4 @@ df |>
   add_caption(caption = "7.3h means 7h 18min, not 7h 30min")
 ```
 
-Sleeping at 23:30 does not mean finishing homework at that time. It simply means that student might be used to going to bed at that time.
+Sleeping at 23:30 does not mean finishing homework at that time. It simply means that the student might be used to going to bed at that time.
