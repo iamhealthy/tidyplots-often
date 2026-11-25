@@ -270,6 +270,45 @@ patchwork::wrap_plots(p1, p2, p3, p4, ncol = 2)
 
 Based on the plots, I (and might you) can now understand them intuitively.
 
+## Use `rnorm` to generate two datasets
+
+```{r}
+#| label: rnorm_for_df
+library(tidyplots)
+
+set.seed(888)
+img1 <- tibble::tibble(
+  Image = rep("img1", 6000),
+  `Cell: PD1: Median` = c(rnorm(3000, mean = 5), rnorm(3000, mean = 20, sd = 2))
+)
+
+set.seed(888)
+img2 <- tibble::tibble(
+  Image = rep("img2", 7000),
+  `Cell: PD1: Median` = c(rnorm(3500, mean = 5.5, sd = 1.5), rnorm(3500, mean = 20.5, sd = 2)) + 2
+)
+
+df <- list(img1, img2) |> 
+  dplyr::bind_rows()
+
+df |> 
+  tidyplot(x = `Cell: PD1: Median`, color = Image) |> 
+  add_histogram(binwidth = 0.3, position = "identity", alpha = 0.2) |> 
+  add(ggplot2::geom_freqpoly(binwidth = 0.3))
+
+if(!fs::dir_exists("data")) {fs::dir_create("data")}
+```
+
+```{r}
+#| eval: false
+df |> 
+  readr::write_rds("data/cell_detections.rds")
+df |> 
+  readr::write_csv("data/cell_detections.csv")
+```
+
+Date: 2026-11-25
+
 ## Use `Reduce` for functional programming
 
 This is the [parallel version](https://ggplot2-book.org/programming.html#exercises-3) but applying to `tidyplots`.
